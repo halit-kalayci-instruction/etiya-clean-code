@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface ICustomerService {
     List<Customer> getAll();
+    Customer getById(int id);
     void add(Customer customer) throws Exception;
     void update(Customer customer) throws Exception;
+    void delete(Customer customer) throws Exception;
 }

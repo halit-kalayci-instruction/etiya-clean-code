@@ -26,9 +26,7 @@ public class Main {
         /*Customer customer1 = new Customer(2,"Caner","Börekçi","CU510","1","caner@etiya.com","123");
         customerService.add(customer1);*/
 
-        List<Customer> customers = customerService.getAll();
-        for(Customer dbCustomer:customers){
-            System.out.println(dbCustomer.getName());
-        }
+        Customer customerWithId = customerService.getById(2);
+        System.out.println(customerWithId.getName());
     }
 }

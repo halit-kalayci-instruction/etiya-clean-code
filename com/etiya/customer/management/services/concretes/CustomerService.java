@@ -33,6 +33,7 @@ public class CustomerService implements ICustomerService {
         return customerRepository.getAll();
     }
 
+
     /**
      * Bu fonksiyon eklenmek istenen customer bilgilerini alarak validasyon ve iş kuralları
      * uyguladıktan sonra customeri ekler.
@@ -51,6 +52,17 @@ public class CustomerService implements ICustomerService {
     public void update(Customer customer) throws Exception {
         checkIfCustomerExistsWithSameNationalityId(customer.getNationalityId());
     }
+
+    @Override
+    public void delete(Customer customer) throws Exception {
+        customerRepository.delete(customer);
+    }
+
+    @Override
+    public Customer getById(int id) {
+        return customerRepository.getById(id);
+    }
+
 
     private void validateCustomer(Customer customer) throws Exception {
         validateCustomerNationalityId(customer.getNationalityId());

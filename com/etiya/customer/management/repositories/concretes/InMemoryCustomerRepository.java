@@ -18,6 +18,11 @@ public class InMemoryCustomerRepository implements ICustomerRepository {
         return customers;
     }
 
+    @Override
+    public Customer getById(int id) {
+        return customers.stream().filter(i->i.getId() == id).findFirst().orElseThrow();
+    }
+
 
     @Override
     public void add(Customer customer) {
@@ -34,6 +39,16 @@ public class InMemoryCustomerRepository implements ICustomerRepository {
             return;
         } */
         customers.add(customer);
+    }
+
+    @Override
+    public void delete(Customer customer) {
+
+    }
+
+    @Override
+    public void update(Customer customer) {
+
     }
 
 
