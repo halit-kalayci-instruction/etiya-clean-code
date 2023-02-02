@@ -11,6 +11,16 @@ public class Customer implements IEntity {
     String email;
     String password;
 
+    public Customer(int id, String name, String lastName, String customerNo, String nationalityId, String email, String password) {
+        this.id = id;
+        this.name = name;
+        this.lastName = lastName;
+        this.customerNo = customerNo;
+        this.nationalityId = nationalityId;
+        this.email = email;
+        this.password = password;
+    }
+
     public int getId() {
         return id;
     }
