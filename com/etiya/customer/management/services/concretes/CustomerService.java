@@ -6,6 +6,7 @@ import com.etiya.customer.management.repositories.abstracts.ICustomerRepository;
 import com.etiya.customer.management.repositories.concretes.InMemoryCustomerRepository;
 import com.etiya.customer.management.services.abstracts.ICustomerCheckService;
 import com.etiya.customer.management.services.abstracts.ICustomerService;
+import com.etiya.customer.management.services.rules.CustomerBusinessRules;
 import com.etiya.mernis.MernisApplication;
 
 import java.util.List;
@@ -15,20 +16,18 @@ public class CustomerService implements ICustomerService {
     private ICustomerRepository customerRepository;
     private ILogger logger;
     private ICustomerCheckService customerCheckService;
+    private CustomerBusinessRules customerBusinessRules;
 
     public CustomerService(ICustomerRepository customerRepository,ILogger logger,ICustomerCheckService customerCheckService)
     {
             this.customerRepository = customerRepository;
             this.logger = logger;
             this.customerCheckService = customerCheckService;
+            this.customerBusinessRules = CustomerBusinessRules.getInstance(customerRepository,customerCheckService);
     }
 
     @Override
     public List<Customer> getAll() {
-        // kullanıcı giriş yapmış mı?
-        isUserAuthenticated();
-        // veri erişimden veriyi iste..
-        // if suistimali
         logger.log("CustomerService.GetAll()");
         return customerRepository.getAll();
     }
@@ -43,14 +42,14 @@ public class CustomerService implements ICustomerService {
     @Override
     public void add(Customer customer) throws Exception {
         validateCustomer(customer);
-        checkIfCustomerExistsWithSameNationalityId(customer.getNationalityId());
-        checkIfNationalityIdValid(customer.getName(),customer.getLastName(),customer.getNationalityId());
+        customerBusinessRules.checkIfCustomerExistsWithSameNationalityId(customer.getNationalityId());
+        customerBusinessRules.checkIfNationalityIdValid(customer.getName(),customer.getLastName(),customer.getNationalityId());
         customerRepository.add(customer);
     }
 
     @Override
     public void update(Customer customer) throws Exception {
-        checkIfCustomerExistsWithSameNationalityId(customer.getNationalityId());
+        customerBusinessRules.checkIfCustomerExistsWithSameNationalityId(customer.getNationalityId());
     }
 
     @Override
@@ -63,6 +62,8 @@ public class CustomerService implements ICustomerService {
         return customerRepository.getById(id);
     }
 
+
+    // javax.validation
 
     private void validateCustomer(Customer customer) throws Exception {
         validateCustomerNationalityId(customer.getNationalityId());
@@ -79,19 +80,6 @@ public class CustomerService implements ICustomerService {
         if(nationalityId.length() != 11)
             throw new Exception("TC Kimlik 11 hane olmalıdır.");
     }
-    private void checkIfCustomerExistsWithSameNationalityId(String nationalityId) throws Exception {
-        /*if(this.customerRepository.getAll()
-                .stream().filter(i->i.getCustomerNo().equals(nationalityId)) != null){
-            throw new Exception("Bu tckn ile bir müşteri mevcut.");
-        }*/
-    }
-    private void isUserAuthenticated(){
-        System.out.println("Kullanıcı giriş yapmış durumda..");
-    }
-    private void checkIfNationalityIdValid(String name, String lastName, String nationalityId) throws Exception {
-        // loose coupling
-       boolean result = customerCheckService.validateNationalityIdentity(name,lastName,nationalityId);
-       if(!result)
-            throw new Exception("TCKN doğrulanamadı..");
-    }
+
+
 }

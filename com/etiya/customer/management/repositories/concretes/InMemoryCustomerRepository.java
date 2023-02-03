@@ -20,30 +20,18 @@ public class InMemoryCustomerRepository implements ICustomerRepository {
 
     @Override
     public Customer getById(int id) {
-        return customers.stream().filter(i->i.getId() == id).findFirst().orElseThrow();
+        return customers.stream().filter(i->i.getId() == id).findFirst().orElse(null);
     }
 
 
     @Override
     public void add(Customer customer) {
-        // YANLIŞ!
-        //Business Logic
-        /*
-        if(customers.stream()
-                .filter(i->i.getNationalityId()
-                        .equals(customer.getNationalityId())) != null){
-            return;
-        }
-        // Validation
-        if(customer.getCustomerNo().length() < 3) {
-            return;
-        } */
         customers.add(customer);
     }
 
     @Override
     public void delete(Customer customer) {
-
+        customers.remove(customer);
     }
 
     @Override

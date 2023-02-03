@@ -4,6 +4,7 @@ import com.etiya.customer.management.entities.concretes.Customer;
 
 import java.util.List;
 
+// Data Transfer Object
 public interface ICustomerService {
     List<Customer> getAll();
     Customer getById(int id);
