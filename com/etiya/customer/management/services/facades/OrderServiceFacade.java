@@ -17,7 +17,12 @@ public class OrderServiceFacade {
     public OrderBusinessRules orderBusinessRules;
     public CustomerBusinessRules customerBusinessRules;
 
-    public OrderServiceFacade(IOrderRepository orderRepository, ICustomerService customerService, ILogger logger, IAuthorization authorization, ICaching caching,CustomerBusinessRules customerBusinessRules) {
+    public OrderServiceFacade(IOrderRepository orderRepository,
+                              ICustomerService customerService,
+                              ILogger logger,
+                              IAuthorization authorization,
+                              ICaching caching,
+                              CustomerBusinessRules customerBusinessRules) {
         this.orderRepository = orderRepository;
         this.customerService = customerService;
         this.logger = logger;

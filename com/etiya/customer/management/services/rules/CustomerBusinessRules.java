@@ -38,4 +38,6 @@ public class CustomerBusinessRules {
             throw new Exception("TCKN doğrulanamadı..");
     }
 
+
+
 }
